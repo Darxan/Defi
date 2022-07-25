@@ -50,3 +50,65 @@ curl https://get.ignite.com/username/loan@latest! | sudo bash
 - [Ignite CLI docs](https://docs.ignite.com)
 - [Cosmos SDK docs](https://docs.cosmos.network)
 - [Developer Chat](https://discord.gg/ignite)
+
+
+
+
+--------------------------------------------------------------------------
+## Тестовое сообщение о ликвидации
+### Теперь вы можете протестировать сообщение о ликвидации. Запустите свою цепочку и сбросьте состояние приложения:
+
+```
+ignite chain serve -r
+```
+### Установите крайний срок для запроса кредита равным 1 блоку:
+```
+loand tx loan request-loan 100token 2token 200token 1 --from bob -y
+```
+
+### Запрос вашего запроса на получение кредита:
+```
+loand query loan list-loan
+```
+### Утвердить кредит:
+```
+loand tx loan approve-loan 0 --from alice -y
+```
+
+### Вы можете запросить балансы Алисы, чтобы увидеть действующий кредит.
+
+### Возьмите адрес кредитора сверху, это адрес Алисы.
+
+```
+loand query bank balances <alice_address>
+```
+### Теперь ликвидируйте кредит:
+
+```
+loand tx loan liquidate-loan 0 --from alice -y
+```
+
+###  Запрос кредита:
+```
+loand query loan list-loan
+```
+-------------------------------------------------------------------------
+## Тест отмены кредита
+### Протестируйте изменения для отмены запроса на получение кредита:
+```
+ignite chain serve -r
+```
+```
+loand tx loan request-loan 100token 2token 200token 100 --from bob -y
+```
+### Запрос вашего запроса на получение кредита:
+```
+loand query loan list-loan
+```
+```
+loand tx loan cancel-loan 0 --from bob -y
+```
+### Запрос вашего запроса на получение кредита:
+```
+loand query loan list-loan
+```
